@@ -100,8 +100,8 @@ class Game {
    *  @return true if any move is possible after the roll, false otherwise
    * */ rollDice(value) {
     const rolledValue = value ?? Math.floor(Math.random() * 6) + 1;
-    socket.emit("rolledValue", rolledValue);
-    // rollDiceAnimate(rolledValue);
+    // socket.emit("rolledValue", rolledValue);
+    rollDiceAnimate(rolledValue);
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -422,34 +422,35 @@ function onRollButtonClick() {
 
   if (game.lastRolledValue == 0) {
     // -------------------------------------
-    socket.emit("rolldiced", { action: "rolldicedd" });
-    // game.rollDice();
+    // socket.emit("rolldiced", { action: "rolldicedd" });
+    game.rollDice();
   } else {
     alert("Already rolled, make a move!");
   }
 }
 
 rollDiceButton.addEventListener("click", () => {
-  socket.emit("ludospin", { action: "rollDice" });
+  // socket.emit("ludospin", { action: "rollDice" });
+  onRollButtonClick();
 });
 
 
 // --------------------------------
-socket.on("rolldiced", (msg) => {
-  if (msg.action === "rolldicedd") {
-    game.rollDice();
-  }
-});
+// socket.on("rolldiced", (msg) => {
+//   if (msg.action === "rolldicedd") {
+//     game.rollDice();
+//   }
+// });
 
-socket.on("rolledValue", (msg) => {
-  rollDiceAnimate(msg);
-});
+// socket.on("rolledValue", (msg) => {
+//   rollDiceAnimate(msg);
+// });
 
-socket.on("ludospin", (msg) => {
-  if (msg.action === "rollDice") {
-    onRollButtonClick();
-  }
-});
+// socket.on("ludospin", (msg) => {
+//   if (msg.action === "rollDice") {
+//     onRollButtonClick();
+//   }
+// });
 
 window.addEventListener("keypress", (event) => {
   if (event.key === ".") {
